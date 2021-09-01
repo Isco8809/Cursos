@@ -35,7 +35,7 @@ while existe == 2 or existe == 1:
         palabra = input("Que termino desea consultar: ")
         
         if palabra in diccionario:
-            print("palabra clave: ", palabra)
+            print("Termino clave ", palabra)
             
         else:
             rspuesta= input("El termino no existe, lo desea agregar? \n1.SI 2.NO")
