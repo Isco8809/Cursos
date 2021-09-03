@@ -28,6 +28,3 @@ class Criptomoneda(object):
             return self.saldo*self.cotizacion
         else:
             return self.saldo
-
-Bitcoin = Criptomoneda("Bitcoin",0.234,6435.321)
-Ethereum = Criptomoneda("Ethereum",0.6734,467.563)
