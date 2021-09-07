@@ -1,4 +1,5 @@
-class formula(object):
+from Retos1 import Trabajor as tb
+class formula():
     def __init__(self, lista):
         var  = self.cadena(lista)
         self.recorrido  = var[0]

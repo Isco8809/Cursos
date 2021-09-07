@@ -1,5 +1,5 @@
 from Retos1 import Trabajor as tb
 
-Cadena =  input("Ingrese los valores")
-Daniel = tb(Cadena)
+salario, cantidadHoras, Bonificacion =  input("Ingrese los valores").split(" ")
+Daniel = tb(float(salario), float(cantidadHoras), float(Bonificacion))
 print(Daniel.totalSalario(), Daniel.salarioFinal())

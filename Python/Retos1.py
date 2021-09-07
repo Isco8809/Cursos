@@ -1,15 +1,8 @@
-class Trabajor(object):
-    def __init__(self,lista):
-        var  = self.cadena(lista)
-        self.salario = var[0]
-        self.cantHoras = var[1]
-        self.bonificacion = var[2]
-    
-    def cadena(self,lista):
-        valor=[]
-        for x in lista.split(" "):
-            valor.append(int(x))
-        return valor
+class Trabajor():
+    def __init__(self,salario, cantidaHoras, bonificacion):
+        self.salario = salario
+        self.cantHoras = cantidaHoras
+        self.bonificacion = bonificacion
 
     def salarioHoras(self):
         return (self.salario/199)
@@ -35,3 +28,6 @@ class Trabajor(object):
 
     def salarioFinal(self):
         return round(self.totalSalario() - self.descuentos(),1)
+    
+    def holaMundo(self):
+        return print("Hola")
