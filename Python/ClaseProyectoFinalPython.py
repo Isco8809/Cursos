@@ -1,8 +1,9 @@
-def leer(archivoOpen):
-    archivoLec = open(archivoOpen+".txt","r")
-    contenido = archivoLec.read()
-    #archivoLec.close()
-    return contenido
+#import json
 
-contenido = leer("BD_Usuarios")
-print(contenido)
+f  = open('Prueba1.txt','r')
+content  = f.read()
+print(content)
+#jsondecoded = json.dumps(content)
+
+# for entidad in jsondecoded["Nombre"]:
+#     print(entidad)
