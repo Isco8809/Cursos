@@ -1,0 +1,20 @@
+[
+  {
+    "Nombre": "Francisco",
+    "Codigo": "franc123",
+    "Criptomonodas": {
+	"BTC" : 20,
+	"ETH" : 5
+	},
+    "Fecha" : "07/09/2021"
+  },
+  {
+    "Nombre": "Javier",
+    "Codigo": "Ja12",
+    "Criptomonodas": {
+	"BCC" : 10,
+	"LTC" : 2
+	},
+    "Fecha" : "03/08/2021"
+  }
+]
