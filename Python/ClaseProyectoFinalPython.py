@@ -1,9 +1,8 @@
-import json
+def leer(archivoOpen):
+    archivoLec = open(archivoOpen+".txt","r")
+    contenido = archivoLec.read()
+    #archivoLec.close()
+    return contenido
 
-with open("BD_Usuarios.json") as file:
-    JsonObject = json.load(file)
-    file.close
-
-Nombre = JsonObject['Nombre']
-
-print(Nombre)
+contenido = leer("BD_Usuarios")
+print(contenido)

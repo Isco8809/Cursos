@@ -1,0 +1,5 @@
+({ 'Usuario1' : 
+                { 'Nombre': 'Francisco' , 'Cod' : 123 , 'Criptomoneda' : { 'Cripto': 'BTC' , 'Cantidad' : 20 } } , 
+            'Usuario2' : 
+                { 'Nombre': 'Javier' , 'Cod' : 456 , 'Criptomoneda' : { 'Cripto': 'BCC' , 'Cantidad' : 20 } } 
+                })
