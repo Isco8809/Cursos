@@ -1,4 +1,5 @@
-import json, requests
+import json
+import requests
 #Se crea la clase que se encarga de consultar los datos del usuario (codigo, criptmonedas y cantidad)
 class usuario():
     def __init__(self, codigo):
@@ -29,6 +30,7 @@ class usuario():
         headers = {  'Accepts': 'application/json',  
                     'X-CMC_PRO_API_KEY':  'b1bc1067-1001-4842-a6c8-f82d1dba7d25'}
         conexion = requests.get("https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest",headers=headers).json()
+        #conexion = requests.get("https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest",headers=headers).json()
         return conexion
 
 #Creamos una lista de las criptomonedas de la página, para una rápida validación de que existan
@@ -47,3 +49,37 @@ class usuario():
         for valor in datos_usuario['Criptomonedas']['Cripto']:
             lista.append(valor)
         return lista
+    
+#Validar que la moneda que se ingrese exista!
+    def validarMoneda(self):
+        valida = True
+        while valida:
+            moneda = input("Ingrese la moneda: ")
+            if moneda in self.listaCriptomonedas():
+                valida = False
+                print("Moneda correcta!") 
+            else:
+                print("Moneda incorrecta!")
+        return moneda
+
+#Se valida que el codigo para recibir moneda sea diferente al que se logueo
+    def validarCodigo(self):
+        valida = True
+        while valida:
+            codigo = input("Ingrese el codigo: ")
+            if codigo != self.codigo:
+                valida = False
+                print("Codigo correcto!") 
+            else:
+                print("El codigo debe ser diferente al tuyo!")
+        return codigo
+
+#Validad que el numero ingresado sea un flotante y no un string
+    def validarCantidad(self):
+        while True:
+            try:
+                numero = float(input("Ingrese la cantidad: "))
+                break
+            except ValueError:
+                print("El numeor ingresado es incorrecto")
+        return numero
