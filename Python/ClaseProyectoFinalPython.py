@@ -81,5 +81,15 @@ class usuario():
                 numero = float(input("Ingrese la cantidad: "))
                 break
             except ValueError:
-                print("El numeor ingresado es incorrecto")
+                print("El numero ingresado es incorrecto")
         return numero
+    
+    def guardarCriptomoneda(self):
+        moneda = self.validarMoneda()
+        lista = self.criptomonedaUsuario()
+        if moneda in lista:
+            valor = lista.index(moneda)
+        else:
+            print("No hay")
+            #valor= lista.append(moneda)
+        return valor
