@@ -4,17 +4,21 @@ import requests
 class usuario():
     def __init__(self, codigo):
         self.codigo = codigo
+        self.moneda = self.validarMoneda()
+        self.cantidad = self.validarCantidad()
 
 #En este metodo creamos la conexión al json, que tiene la informació de los usuarios, se lee los datos
     def consultarBD(self):
         with open('Python\BD_Usuarios.json') as js:
-            consulta = json.load(js)
+            #consulta = json.dumps(js)
+            consulta1 = json.loads(js)
             js.close()
-        return consulta
+        return consulta1
 
 #Verificación de que el usuario ingresado este en el json de los datos para el login
     def codigoUsuario(self):
         verificacion=True
+        print("buena")
         Datos = self.consultarBD()
         while verificacion:
             for a in Datos['Usuarios']:
@@ -84,12 +88,32 @@ class usuario():
                 print("El numero ingresado es incorrecto")
         return numero
     
+    def escribirArchivo(self,data):
+        with open("Python\BD_Usuarios.json", "w") as jsonFile:
+            jsonFile.seek(0)
+            json.dump(data, jsonFile)
+    
+    def sumarCriptomoneda(self,posicion):
+        datos_usuario = self.codigoUsuario()
+        cantidadInicial = datos_usuario['Criptomonedas']['Cantidad'][posicion] 
+        cantidadFinal = int(cantidadInicial + self.cantidad)
+        Datos = self.consultarBD()
+        print("impresión de datos")
+        #print(Datos.keys())
+        # Datos['Usuarios']['Criptomonedas']['Cantidad'][posicion] = cantidadFinal
+        # self.escribirArchivo(Datos)
+        # for a in Datos['Usuarios']:
+        #         if self.codigo in str(a['Codigo']):
+        #             a['Criptomonedas']['Cantidad'][posicion] = cantidadFinal        
+        #             archivo = self.escribirArchivo(a)
+    
+#En este metodo validamos si la moneda ya la tiene el usuario
     def guardarCriptomoneda(self):
-        moneda = self.validarMoneda()
         lista = self.criptomonedaUsuario()
-        if moneda in lista:
-            valor = lista.index(moneda)
+        if self.moneda in lista:
+            posicion = lista.index(self.moneda)
+            cantidad = self.sumarCriptomoneda(posicion)
         else:
             print("No hay")
             #valor= lista.append(moneda)
-        return valor
+        return int(posicion)

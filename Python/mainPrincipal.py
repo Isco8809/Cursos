@@ -3,7 +3,9 @@ from ClaseProyectoFinalPython import usuario
 
 x = input("Ingrese el codigo de usuario")
 datos = usuario(x)
+print(datos)
 respuesta = datos.codigoUsuario()
+print(respuesta)
 metodo = datos.guardarCriptomoneda()
 print(metodo)
 
@@ -15,3 +17,22 @@ print(metodo)
 #         cantidad = datos.validarCantidad()
 #         codigo = datos.validarCodigo()
         
+        
+# data = {"Fruteria": [  
+#             {"Fruta":   [    
+#                 {"Nombre":"Manzana","Cantidad":10},
+#                 {"Nombre":"Pera","Cantidad":20},    
+#                 {"Nombre":"Naranja","Cantidad":30}   ]  
+#             },  
+#             {"Verdura":   [    
+#                 {"Nombre":"Lechuga","Cantidad":80},    
+#                 {"Nombre":"Tomate","Cantidad":15},    
+#                 {"Nombre":"Pepino","Cantidad":50}   ]  
+#             } ]
+#         }
+
+# data_string = json.dumps(data)
+# print('ENCODED:', type(data_string))
+
+# decoded = json.loads(data_string)
+# print('DECODED:', type(decoded))

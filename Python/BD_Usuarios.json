@@ -1,22 +1,22 @@
 {
-  "Usuarios": [
-    {
-      "Nombre": "Francisco",
-      "Codigo": 123,
-      "Fecha": "07/09/2021",
-      "Criptomonedas": {
-        "Cripto" : [ "BTC", "ETH"],
-        "Cantidad" : [ 10 , 20]
+    "Usuarios": [
+      {
+        "Nombre": "Francisco",
+        "Codigo": 123,
+        "Fecha": "07/09/2021",
+        "Criptomonedas": {
+          "Cripto" : [ "BTC", "ETH"],
+          "Cantidad" : [ 10 , 20]
+        }
+      },
+      {
+        "Nombre": "Javier",
+        "Codigo": 456,
+        "Fecha": "08/09/2021",
+        "Criptomonedas": {
+          "Cripto" : [ "BCC", "BTC"],
+          "Cantidad" : [ 2 , 5]
+        }
       }
-    },
-    {
-      "Nombre": "Javier",
-      "Codigo": 456,
-      "Fecha": "08/09/2021",
-      "Criptomonedas": {
-        "Cripto" : [ "BCC", "BTC"],
-        "Cantidad" : [ 2 , 5]
-      }
-    }
-  ]
-}
+    ]
+  }
