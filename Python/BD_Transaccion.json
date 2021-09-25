@@ -1,0 +1,18 @@
+{
+    "Transaccion": [
+      {
+        "Codigo": 123,
+        "Fecha": [],
+        "Tipo": [], 
+        "Monto" : [],
+        "Moneda":[]
+      },
+      {
+        "Codigo": 456,
+        "Fecha": [],
+        "Tipo": [], 
+        "Monto" : [],
+        "Moneda":[]
+      }
+    ]
+  }

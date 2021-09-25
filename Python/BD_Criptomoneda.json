@@ -1,0 +1,14 @@
+{
+    "Criptomoneda": [
+      {
+        "Codigo": 123,
+        "Nombre" : [ "BTC", "ETH"],
+        "Cantidad" : [ 10 , 20]
+      },
+      {
+        "Codigo": 456,
+        "Nombre" : [ "BCC", "BTC"],
+        "Cantidad" : [ 2 , 5]
+      }
+    ]
+  }
