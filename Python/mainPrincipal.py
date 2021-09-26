@@ -3,7 +3,7 @@ from ClaseProyectoFinalPython import usuario
 
 x = input("Ingrese el codigo de usuario")
 datos = usuario(x)
-metodo = datos.criptomonedaUsuario()
+metodo = datos.guardarCriptomoneda()
 print(metodo)
 
 # opcion = 0

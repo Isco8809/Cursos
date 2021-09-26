@@ -4,7 +4,6 @@ import requests
 class usuario():
     def __init__(self,codigo):
         self.codigo=codigo
-        self.cantidad = self.validarCantidad()
 
 #En este metodo creamos la conexión al json, que tiene la informació de los usuarios, se lee los datos
     def consultarBDUsuarios(self):
@@ -94,10 +93,13 @@ class usuario():
             json.dump(data, jsonFile)
     
     def sumarCriptomoneda(self,posicion):
-        datosMoneda = self.consultarBDCripto()
-        cantidadInicial = datosMoneda['Criptomoneda']['Nombre'][posicion] 
-        cantidadFinal = int(cantidadInicial + self.cantidad)
-        
+        Datos = self.consultarBDCripto()
+        for valores in Datos['Criptomoneda']:
+            print(valores)
+            if self.codigo in str(valores['Codigo']):
+                valor = valores['Cantidad'][posicion] + self.validarCantidad()
+        Datos['Criptomoneda'][0]['Cantidad'][posicion] = valor
+        self.escribirArchivo(Datos)   
     
     def guardarCriptomoneda(self):
         moneda = self.validarMoneda()
