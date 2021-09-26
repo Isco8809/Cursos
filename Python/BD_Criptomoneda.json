@@ -1,1 +1,26 @@
-{"Criptomoneda": [{"Codigo": 123, "Nombre": ["BTC", "ETH"], "Cantidad": [75.0, 20]}, {"Codigo": 456, "Nombre": ["BCC", "BTC"], "Cantidad": [2, 5]}]}
+{
+    "Criptomoneda": [
+        {
+            "Codigo": 123,
+            "Nombre": [
+                "BTC",
+                "ETH"
+            ],
+            "Cantidad": [
+                155.0,
+                170.0
+            ]
+        },
+        {
+            "Codigo": 456,
+            "Nombre": [
+                "BCC",
+                "BTC"
+            ],
+            "Cantidad": [
+                2,
+                5
+            ]
+        }
+    ]
+}

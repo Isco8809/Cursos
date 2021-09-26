@@ -86,21 +86,29 @@ class usuario():
             except ValueError:
                 print("El numero ingresado es incorrecto")
         return numero
-    
+
+#Creo la conexión para escribir en el archivo, y sumar las monedas que se reciben
     def escribirArchivo(self,data):
-        with open("Python\BD_Criptomoneda.json", "a") as jsonFile:
+        with open("Python\BD_Criptomoneda.json", "w") as jsonFile:
             jsonFile.seek(0)
-            json.dump(data, jsonFile)
+            json.dump(data, jsonFile, indent=4)
     
+#creo que metodo que suma la cantidad de moneda al archivo, primero indico en que posición voy a guardar la cantidad
+#averiguo la posición del usuario en la criptomoneda con un contador:
+#no pude encontrar la mejor manera de leer el json y pasar los valor por medio de las key, entonces me toco averiguar la posicion
     def sumarCriptomoneda(self,posicion):
         Datos = self.consultarBDCripto()
+        cantidadListas=0
         for valores in Datos['Criptomoneda']:
-            print(valores)
             if self.codigo in str(valores['Codigo']):
+                posicionUsuario = cantidadListas
                 valor = valores['Cantidad'][posicion] + self.validarCantidad()
-        Datos['Criptomoneda'][0]['Cantidad'][posicion] = valor
+            cantidadListas+=1
+        Datos['Criptomoneda'][posicionUsuario]['Cantidad'][posicion] = valor
         self.escribirArchivo(Datos)   
     
+#Con este metodo averiguo si la criptomoneda la tiene el usuario o no, si la tiene le sumo la cantidad a la que tiene, y si no la tiene
+#creo el registro con la neuva criptomoneda y la cantidad recibida
     def guardarCriptomoneda(self):
         moneda = self.validarMoneda()
         lista = self.criptomonedaUsuario()
