@@ -1,18 +1,38 @@
 {
     "Transaccion": [
-      {
-        "Codigo": 123,
-        "Fecha": [],
-        "Tipo": [], 
-        "Monto" : [],
-        "Moneda":[]
-      },
-      {
-        "Codigo": 456,
-        "Fecha": [],
-        "Tipo": [], 
-        "Monto" : [],
-        "Moneda":[]
-      }
+        {
+            "Codigo": 123,
+            "Fecha": [
+                "2021-09-26 21:32:33.437989",
+                "2021-09-26 21:32:50.222214"
+            ],
+            "Tipo": [
+                "Recibir",
+                "Recibir"
+            ],
+            "Monto": [
+                5.0,
+                5.0
+            ],
+            "Moneda": [
+                "BTC",
+                "BTC"
+            ]
+        },
+        {
+            "Codigo": 456,
+            "Fecha": [
+                "2021-09-26 21:32:01.973163"
+            ],
+            "Tipo": [
+                "Recibir"
+            ],
+            "Monto": [
+                5.0
+            ],
+            "Moneda": [
+                "BTC"
+            ]
+        }
     ]
-  }
+}

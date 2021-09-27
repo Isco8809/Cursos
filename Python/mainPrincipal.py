@@ -3,7 +3,8 @@ from ClaseProyectoFinalPython import usuario
 
 x = input("Ingrese el codigo de usuario")
 datos = usuario(x)
-metodo = datos.guardarCriptomoneda()
+metodo1 = datos.guardarCriptomoneda()
+metodo = datos.guardarTransaccion("Recibir")
 print(metodo)
 
 # opcion = 0
@@ -13,4 +14,6 @@ print(metodo)
 #         moneda = datos.validarMoneda()
 #         cantidad = datos.validarCantidad()
 #         codigo = datos.validarCodigo()
+#         datos.tipoTransaccion("Recibir")
+
         

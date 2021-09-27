@@ -1,9 +1,11 @@
-import json
+import json, datetime
 import requests
 #Se crea la clase que se encarga de consultar los datos del usuario (codigo, criptmonedas y cantidad)
 class usuario():
     def __init__(self,codigo):
         self.codigo=codigo
+        self.moneda=""
+        self.cantidad=0
 
 #En este metodo creamos la conexión al json, que tiene la informació de los usuarios, se lee los datos
     def consultarBDUsuarios(self):
@@ -11,9 +13,15 @@ class usuario():
             consulta = json.load(js)
         return consulta
 
-#En este metodo creamos la conexión al json, que tiene la informació de los usuarios, se lee los datos
+#En este metodo creamos la conexión al json, que tiene la informació de las criptomonedas, se lee los datos
     def consultarBDCripto(self):
         with open('Python\BD_Criptomoneda.json') as js:
+            consulta = json.load(js)
+        return consulta
+
+#En este metodo creamos la conexión al json, que tiene la informació de las transacciones, se lee los datos
+    def consultarBDTransaccion(self):
+        with open('Python\BD_Transaccion.json') as js:
             consulta = json.load(js)
         return consulta
 
@@ -60,10 +68,11 @@ class usuario():
             moneda = input("Ingrese la moneda: ")
             if moneda in self.listaCriptomonedas():
                 valida = False
+                self.moneda =moneda
                 print("Moneda correcta!") 
             else:
                 print("Moneda incorrecta!")
-        return moneda
+        return self.moneda
 
 #Se valida que el codigo para recibir moneda sea diferente al que se logueo
     def validarCodigo(self):
@@ -87,9 +96,23 @@ class usuario():
                 print("El numero ingresado es incorrecto")
         return numero
 
+#valida que la cantidad no sea negativa o igual a cero
+    def validarMonto(self):
+        self.cantidad = self.validarCantidad()
+        while self.cantidad <= 0: 
+            print("El monto recibido no puede ser cero o negativo")
+            self.cantidad = self.validarCantidad()
+        return self.cantidad       
+
 #Creo la conexión para escribir en el archivo, y sumar las monedas que se reciben
     def escribirArchivo(self,data):
         with open("Python\BD_Criptomoneda.json", "w") as jsonFile:
+            jsonFile.seek(0)
+            json.dump(data, jsonFile, indent=4)
+            
+    #Creo la conexión para escribir en el archivo, y sumar las monedas que se reciben
+    def escribirArchivoTransaccion(self,data):
+        with open("Python\BD_Transaccion.json", "w") as jsonFile:
             jsonFile.seek(0)
             json.dump(data, jsonFile, indent=4)
     
@@ -102,7 +125,7 @@ class usuario():
         for valores in Datos['Criptomoneda']:
             if self.codigo in str(valores['Codigo']):
                 posicionUsuario = cantidadListas
-                valor = valores['Cantidad'][posicion] + self.validarCantidad()
+                valor = valores['Cantidad'][posicion] + self.validarMonto()
             cantidadListas+=1
         Datos['Criptomoneda'][posicionUsuario]['Cantidad'][posicion] = valor
         self.escribirArchivo(Datos)   
@@ -119,3 +142,18 @@ class usuario():
             print("No hay")
             #valor= lista.append(moneda)
         return valor
+
+    def guardarTransaccion(self,tipo):
+        self.tipo = tipo
+        Datos = self.consultarBDTransaccion()
+        posicion=0
+        fecha = datetime.datetime.now()
+        for valores in Datos['Transaccion']:
+            if self.codigo in str(valores['Codigo']):
+                Datos['Transaccion'][posicion]['Fecha'].append(str(fecha))
+                Datos['Transaccion'][posicion]['Tipo'].append(self.tipo)
+                Datos['Transaccion'][posicion]['Monto'].append(self.cantidad)
+                Datos['Transaccion'][posicion]['Moneda'].append(self.moneda)
+            posicion+=1
+            self.escribirArchivoTransaccion(Datos)   
+                
