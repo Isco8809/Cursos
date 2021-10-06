@@ -7,19 +7,19 @@
                 "ETH"
             ],
             "Cantidad": [
-                20.0,
+                5,
                 5
             ]
         },
         {
             "Codigo": 456,
             "Nombre": [
-                "BCC",
+                "BNB",
                 "BTC"
             ],
             "Cantidad": [
-                2,
-                25.0
+                5,
+                15.0
             ]
         }
     ]

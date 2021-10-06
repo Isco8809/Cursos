@@ -2,8 +2,8 @@ import json, datetime
 import requests
 #Se crea la clase que se encarga de consultar los datos del usuario (codigo, criptmonedas y cantidad)
 class usuario():
-    def __init__(self,codigo):
-        self.codigo=codigo
+    def __init__(self):
+        self.codigo= self.codigoUsuario()
         self.moneda=""
         self.cantidad=0
 
@@ -29,12 +29,15 @@ class usuario():
     def codigoUsuario(self):
         verificacion=True
         Datos = self.consultarBDUsuarios()
+        usuario = input("Ingrese el codigo de usuario")
         while verificacion:
             for a in Datos['Usuarios']:
-                if self.codigo in str(a['Codigo']):
+                if usuario in str(a['Codigo']):
+                    self.codigo = usuario
                     verificacion=False
             if  verificacion:
-                self.codigo = input("El codigo no se encuentra, por favor ingrese el codigo correcto: ")
+                usuario = input("El codigo no se encuentra, por favor ingrese el codigo correcto: ")
+        return self.codigo
 
 #Conexión a la página de criptomonedas
     def conexionCriptomonedas(self):
@@ -47,26 +50,25 @@ class usuario():
 #Creamos una lista de las criptomonedas de la página, para una rápida validación de que existan
     def listaCriptomonedas(self):
         datos = self.conexionCriptomonedas()
-        lista=[]
+        diccionario = {}
         for campos in datos['data']:
-            lista.append(campos['symbol'])
-        tuple(lista)
-        return lista
+            diccionario.setdefault(campos['symbol'],campos['quote']['USD']['price'])
+        return diccionario
         
 #Lista de criptomonedas que tiene el usuario
     def criptomonedaUsuario(self):
         consulta = self.consultarBDCripto()
         for valor in consulta['Criptomoneda']:
             if self.codigo in str(valor.get('Codigo')):
-                moneda = valor['Nombre']
-        return moneda
+                return valor.get('Nombre')
+        return 0
         
 #Validar que la moneda que se ingrese exista!
     def validarMoneda(self):
         valida = True
         while valida:
             moneda = input("Ingrese la moneda: ")
-            if moneda in self.listaCriptomonedas():
+            if moneda in self.listaCriptomonedas().keys():
                 valida = False
                 self.moneda =moneda
                 print("Moneda correcta!") 
@@ -118,7 +120,6 @@ class usuario():
     
 #creo que metodo que suma la cantidad de moneda al archivo, primero indico en que posición voy a guardar la cantidad
 #averiguo la posición del usuario en la criptomoneda con un contador:
-#no pude encontrar la mejor manera de leer el json y pasar los valor por medio de las key, entonces me toco averiguar la posicion
     def sumarCriptomoneda(self,posicion):
         Datos = self.consultarBDCripto()
         cantidadListas=0
@@ -133,15 +134,13 @@ class usuario():
 #Con este metodo averiguo si la criptomoneda la tiene el usuario o no, si la tiene le sumo la cantidad a la que tiene, y si no la tiene
 #creo el registro con la neuva criptomoneda y la cantidad recibida
     def guardarCriptomoneda(self):
-        moneda = self.validarMoneda()
+        moneda = self.moneda
         lista = self.criptomonedaUsuario()
         if moneda in lista:
             valor = lista.index(moneda)
             self.sumarCriptomoneda(valor)
-        else:
-            print("No hay")
-            #valor= lista.append(moneda)
-        return valor
+        else:print("No hay")
+        #valor= lista.append(moneda)
 
     def guardarTransaccion(self,tipo):
         self.tipo = tipo
@@ -152,8 +151,9 @@ class usuario():
             if self.codigo in str(valores['Codigo']):
                 Datos['Transaccion'][posicion]['Fecha'].append(str(fecha))
                 Datos['Transaccion'][posicion]['Tipo'].append(self.tipo)
-                Datos['Transaccion'][posicion]['Monto'].append(self.cantidad)
+                Datos['Transaccion'][posicion]['Cantidad'].append(self.cantidad)
                 Datos['Transaccion'][posicion]['Moneda'].append(self.moneda)
+                Datos['Transaccion'][posicion]['Monto'].append(self.listaCriptomonedas().get(self.moneda))
             posicion+=1
             self.escribirArchivoTransaccion(Datos)   
                 
