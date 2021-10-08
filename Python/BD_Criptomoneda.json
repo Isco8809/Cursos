@@ -4,11 +4,13 @@
             "Codigo": 123,
             "Nombre": [
                 "BTC",
-                "ETH"
+                "ETH",
+                "BNB"
             ],
             "Cantidad": [
                 5,
-                5
+                5,
+                5.0
             ]
         },
         {

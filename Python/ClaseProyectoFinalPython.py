@@ -6,6 +6,7 @@ class usuario():
         self.codigo= self.codigoUsuario()
         self.moneda=""
         self.cantidad=0
+        self.monto = 0
 
 #En este metodo creamos la conexión al json, que tiene la informació de los usuarios, se lee los datos
     def consultarBDUsuarios(self):
@@ -130,6 +131,18 @@ class usuario():
             cantidadListas+=1
         Datos['Criptomoneda'][posicionUsuario]['Cantidad'][posicion] = valor
         self.escribirArchivo(Datos)   
+        
+## Se adciona la criptomonedda si la persona al momento de recibirla no tinen en inventario la criptomoneda
+    def adicionarCirpto(self):
+        Datos = self.consultarBDCripto()
+        cantidadListas=0
+        for valores in Datos['Criptomoneda']:
+            if self.codigo in str(valores['Codigo']):
+                posicionUsuario = cantidadListas
+                Datos['Criptomoneda'][posicionUsuario]['Nombre'].append(self.moneda)
+                Datos['Criptomoneda'][posicionUsuario]['Cantidad'].append(self.validarMonto())
+            cantidadListas+=1
+        self.escribirArchivo(Datos)  
     
 #Con este metodo averiguo si la criptomoneda la tiene el usuario o no, si la tiene le sumo la cantidad a la que tiene, y si no la tiene
 #creo el registro con la neuva criptomoneda y la cantidad recibida
@@ -139,8 +152,8 @@ class usuario():
         if moneda in lista:
             valor = lista.index(moneda)
             self.sumarCriptomoneda(valor)
-        else:print("No hay")
-        #valor= lista.append(moneda)
+        else:
+            self.adicionarCirpto()
 
     def guardarTransaccion(self,tipo):
         self.tipo = tipo
@@ -156,4 +169,68 @@ class usuario():
                 Datos['Transaccion'][posicion]['Monto'].append(self.listaCriptomonedas().get(self.moneda))
             posicion+=1
             self.escribirArchivoTransaccion(Datos)   
-                
+            
+########### metodos para transferir
+
+#Se valida que la criptomoneda que la persona quiere tranferir este en billetera, si no le dira que no puede trnasferir una criptomoneda que no tiene
+    def criptomonedaUsuarioTransferir(self):
+        consulta = self.consultarBDCripto()
+        moneda =  input("Ingrese la moneda: ")
+        condicion = True
+        while condicion:
+            for valor in consulta['Criptomoneda']:
+                if self.codigo == str(valor.get('Codigo')):
+                    if moneda in str(valor.get('Nombre')):
+                        print("la moneda está!")
+                        self.moneda =  moneda
+                        condicion =  False
+                    else:
+                        print("No tiene de esta moneda en su billetera, usted tiene: ")
+                        print(self.criptomonedaUsuario())
+                        moneda = input("Ingrese una que si tenga en la billetera: ")
+        return self.moneda
+    
+#Con este metodo calculamos el monto que tiene la persona en la billetera, para que no pueda transferir más de lo que tiene
+    def montoBilletera(self):
+        Datos = self.consultarBDCripto()
+        cantidadListas=0
+        self.moneda = 'BNB'
+        posicion = self.criptomonedaUsuario().index(self.moneda)
+        precio = self.listaCriptomonedas()[self.moneda]
+        for valores in Datos['Criptomoneda']:
+            if self.codigo in str(valores['Codigo']):
+                posicionUsuario = cantidadListas
+                cantidad = Datos['Criptomoneda'][posicionUsuario]['Cantidad'][posicion]
+            cantidadListas+=1
+        montoBilletera = cantidad * precio
+        return montoBilletera
+    
+#Validad que el monto ingresado sea un flotante y no un string
+    def validarMonto(self):
+        while True:
+            try:
+                numero = float(input("Ingrese el monto: "))
+                break
+            except ValueError:
+                print("El monto ingresado es incorrecto")
+        return numero
+
+#valida que el monto no sea negativa o igual a cero
+    def validarMontoPositivo(self):
+        monto = self.validarMonto()
+        while monto <= 0: 
+            print("El monto recibido no puede ser cero o negativo")
+            monto = self.validarMonto()
+        return monto
+    
+#Valida que el saldo a transferir sea menor al que tiene en la billetera
+    def validarMontoPosible(self):
+        montoBilletera = self.montoBilletera()
+        monto = self.validarMontoPositivo()
+        while monto > montoBilletera:
+            print("El monto ingresado es mayor al que tiene en la billetera, por favor ingrese un saldo menor!")
+            monto = self.validarMontoPositivo()
+        self.monto = monto
+        return self.monto
+        
+    

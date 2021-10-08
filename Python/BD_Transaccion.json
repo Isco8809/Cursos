@@ -2,11 +2,21 @@
     "Transaccion": [
         {
             "Codigo": 123,
-            "Fecha": [],
-            "Tipo": [],
-            "Cantidad": [],
-            "Moneda": [],
-            "Monto": []
+            "Fecha": [
+                "2021-10-07 09:49:22.183600"
+            ],
+            "Tipo": [
+                "Recibir"
+            ],
+            "Cantidad": [
+                5.0
+            ],
+            "Moneda": [
+                "BNB"
+            ],
+            "Monto": [
+                440.53667383104147
+            ]
         },
         {
             "Codigo": 456,
