@@ -164,9 +164,13 @@ class usuario():
             if self.codigo in str(valores['Codigo']):
                 Datos['Transaccion'][posicion]['Fecha'].append(str(fecha))
                 Datos['Transaccion'][posicion]['Tipo'].append(self.tipo)
-                Datos['Transaccion'][posicion]['Cantidad'].append(self.cantidad)
                 Datos['Transaccion'][posicion]['Moneda'].append(self.moneda)
-                Datos['Transaccion'][posicion]['Monto'].append(self.listaCriptomonedas().get(self.moneda))
+                if self.tipo == "Recibir":
+                    Datos['Transaccion'][posicion]['Cantidad'].append(self.cantidad)
+                    Datos['Transaccion'][posicion]['Monto'].append(self.listaCriptomonedas().get(self.moneda))
+                else: 
+                    Datos['Transaccion'][posicion]['Cantidad'].append(self.monto / self.listaCriptomonedas()[self.moneda])
+                    Datos['Transaccion'][posicion]['Monto'].append(self.monto)
             posicion+=1
             self.escribirArchivoTransaccion(Datos)   
             
@@ -232,5 +236,15 @@ class usuario():
             monto = self.validarMontoPositivo()
         self.monto = monto
         return self.monto
-        
     
+    def restarMonto(self):
+        cantidadListas=0
+        self.moneda = 'BNB'
+        Datos = self.consultarBDCripto()
+        posicion = self.criptomonedaUsuario().index(self.moneda)
+        for valores in Datos['Criptomoneda']:
+            if self.codigo in str(valores['Codigo']):
+                posicionUsuario = cantidadListas
+                Datos['Criptomoneda'][posicionUsuario]['Cantidad'][posicion] -= (self.monto / self.listaCriptomonedas()[self.moneda])
+            cantidadListas+=1
+        self.escribirArchivo(Datos)
