@@ -267,13 +267,9 @@ class usuario():
 
     def balanceGeneral(self):
         consulta = self.consultarBDCripto()
-        ConsultaListaCripto = self.listaCriptomonedas()
-
+        diccionarioPrecio = self.listaCriptomonedas()
         for valor in consulta['Criptomoneda']:
             if self.codigo in str(valor.get('Codigo')):
-                for nombre, cantidad  in valor['Nombre'],valor['Cantidad']:
-                    print(nombre)
-                    print(cantidad)
-                    # print(valor.get('Nombre'))
-                    # print(valor.get('Cantidad'))
-                    # print(valor.get('Cantidad')* ConsultaListaCripto.keys(valor.get('Nombre')))
+                for nombre, cantidad  in zip(valor['Nombre'],valor['Cantidad']):
+                    precio = diccionarioPrecio[nombre]
+                    print(f"La moneda: {nombre}, tiene un precio en USD actual de {precio}. Cuenta en la billetera con {cantidad} para un monto de {cantidad * precio}")
