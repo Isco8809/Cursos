@@ -55,7 +55,7 @@ class usuario():
         for campos in datos['data']:
             diccionario.setdefault(campos['symbol'],campos['quote']['USD']['price'])
         return diccionario
-        
+    
 #Lista de criptomonedas que tiene el usuario
     def criptomonedaUsuario(self):
         consulta = self.consultarBDCripto()
@@ -198,7 +198,6 @@ class usuario():
     def montoBilletera(self):
         Datos = self.consultarBDCripto()
         cantidadListas=0
-        self.moneda = 'BNB'
         posicion = self.criptomonedaUsuario().index(self.moneda)
         precio = self.listaCriptomonedas()[self.moneda]
         for valores in Datos['Criptomoneda']:
@@ -236,10 +235,10 @@ class usuario():
             monto = self.validarMontoPositivo()
         self.monto = monto
         return self.monto
-    
+
+#Restamos la cantidad a las mondedas que se tienen en la billetera, calculando primero a cuanto equivale en USD
     def restarMonto(self):
         cantidadListas=0
-        self.moneda = 'BNB'
         Datos = self.consultarBDCripto()
         posicion = self.criptomonedaUsuario().index(self.moneda)
         for valores in Datos['Criptomoneda']:
@@ -248,3 +247,33 @@ class usuario():
                 Datos['Criptomoneda'][posicionUsuario]['Cantidad'][posicion] -= (self.monto / self.listaCriptomonedas()[self.moneda])
             cantidadListas+=1
         self.escribirArchivo(Datos)
+
+#Monstrar el precio actual de la moneda
+    def montoCriptoActual(self):
+        montoActual = self.listaCriptomonedas().get(self.moneda)
+        return montoActual
+        
+#retornamos la cantidad que se tienen de criptomonedas para el momento
+    def cantidadCriptoBilletera(self):
+        Datos = self.consultarBDCripto()
+        cantidadListas=0
+        posicion = self.criptomonedaUsuario().index(self.moneda)
+        for valores in Datos['Criptomoneda']:
+            if self.codigo in str(valores['Codigo']):
+                posicionUsuario = cantidadListas
+                cantidad = Datos['Criptomoneda'][posicionUsuario]['Cantidad'][posicion]
+            cantidadListas+=1
+        return cantidad
+
+    def balanceGeneral(self):
+        consulta = self.consultarBDCripto()
+        ConsultaListaCripto = self.listaCriptomonedas()
+
+        for valor in consulta['Criptomoneda']:
+            if self.codigo in str(valor.get('Codigo')):
+                for nombre, cantidad  in valor['Nombre'],valor['Cantidad']:
+                    print(nombre)
+                    print(cantidad)
+                    # print(valor.get('Nombre'))
+                    # print(valor.get('Cantidad'))
+                    # print(valor.get('Cantidad')* ConsultaListaCripto.keys(valor.get('Nombre')))
